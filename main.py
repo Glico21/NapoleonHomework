@@ -1,11 +1,19 @@
-from sanic import Sanic
-from sanic import response
+from configs.config import ApplicationConfig
+from context import Context
+from transport.sanic.configure_sanic import configure_app
 
 
 def main():
-    app = Sanic('TestSanicApplication')
+    config = ApplicationConfig()
+    context = Context()
+    app = configure_app(config, context)
 
-    app.run(host='localhost', port=8000, debug=True)
+    app.run(
+        host=config.sanic.host,
+        port=config.sanic.port,
+        workers=config.sanic.workers,
+        debug=config.sanic.debug,
+    )
 
 
 if __name__ == '__main__':

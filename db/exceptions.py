@@ -4,3 +4,11 @@ class DBIntegrityException(Exception):
 
 class DBDataException(Exception):
     pass
+
+
+class DBUserExistsException(Exception):
+    pass
+
+
+class DBUserNotExistException(Exception):
+    pass

@@ -10,4 +10,5 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
     return (
         endpoints.HelloEndpoint(config=config, context=context, uri='/', methods=('GET', 'POST')),
         endpoints.CreateUserEndpoint(config, context, uri='/user', methods=['POST']),
+        endpoints.AuthUserEndpoint(config, context, uri='/user/auth', methods=['POST'])
     )

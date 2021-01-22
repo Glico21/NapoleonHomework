@@ -1,13 +1,14 @@
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
+from api.response.auth_user import ResponseAuthUserDto, AuthResponseObject
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicUserNotFound, SanicPasswordHashException
 
 from api.request import RequestAuthUserDto
 
 from db.queries import user as user_queries
-from db.exceptions import DBUserNotExistException
+from db.exceptions import DBUserNotExistsException
 
 from helpers.passwords import check_hash, CheckPasswordHashException
 from helpers.auth import create_token
@@ -21,7 +22,7 @@ class AuthUserEndpoint(BaseEndpoint):
 
         try:
             db_user = user_queries.get_user(session, login=request_model.login)
-        except DBUserNotExistException:
+        except DBUserNotExistsException:
             raise SanicUserNotFound('User not found')
 
         try:
@@ -33,11 +34,15 @@ class AuthUserEndpoint(BaseEndpoint):
             'uid': db_user.id,
         }
 
-        response_body = {
-            'Authorisation': create_token(payload)
-        }
+        token = create_token(payload)
+        response = AuthResponseObject(token)
+        response_model = ResponseAuthUserDto(response)
+
+        # response_body = {
+        #     'Authorization': create_token(payload)
+        # }
 
         return await self.make_response_json(
-            body=response_body,
+            body=response_model.dump(),
             status=200,
         )

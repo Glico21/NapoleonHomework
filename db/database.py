@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session
@@ -27,10 +29,13 @@ class DBSession:
             raise DBDataException(e)
 
     def get_user_by_login(self, login: str) -> DBUser:
-        return self._session.query(DBUser).filter(DBUser.login == login).first()
+        return self._session.query(DBUser).filter(DBUser.login == login, DBUser.is_deleted == 0).first()
 
     def get_user_by_id(self, uid: int) -> DBUser:
-        return self._session.query(DBUser).filter(DBUser.id == uid).first()
+        return self._session.query(DBUser).filter(DBUser.id == uid, DBUser.is_deleted == 0).first()
+
+    def get_user_all(self) -> List[DBUser]:
+        return self._session.query(DBUser).filter(DBUser.is_deleted == 0).all()
 
     def commit_session(self, need_close: bool = False):
         try:

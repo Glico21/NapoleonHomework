@@ -8,5 +8,4 @@ class ApplicationConfig:
 
     def __init__(self):
         self.sanic = SanicConfig()
-        self.database = SQLiteConfig()
         self.database = PostgresConfig()

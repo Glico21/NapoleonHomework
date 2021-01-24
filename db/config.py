@@ -10,9 +10,9 @@ class SQLiteConfig:
 
 
 class PostgresConfig:
-    name = os.getenv('POSTGRES_NAME', 'napoleonhomework')
+    name = os.getenv('POSTGRES_NAME', 'NapoleonHW')
     user = os.getenv('POSTGRES_USER', 'admin')
     password = os.getenv('POSTGRES_PASSWORD', 'qwerty')
-    host = os.getenv('POSTGRES_HOST', 'napoleonhomework-db')
+    host = os.getenv('POSTGRES_HOST', 'NapoleonHW-db')
     port = os.getenv('POSTGRES_PORT', '5432')
-    url = rf'postgresql+psycopg2://{user}:{password}@{host}/{name}'
+    url = rf'postgresql+psycopg2://{user}:{password}@{host}:{port}/{name}'

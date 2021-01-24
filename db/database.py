@@ -2,7 +2,7 @@ from typing import List
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import IntegrityError, DataError
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
 from db.models import BaseModel, DBUser
@@ -14,8 +14,11 @@ class DBSession:
     def __init__(self, session: Session):
         self._session = session
 
-    def query(self, *args, **kwargs):
+    def query(self, *args, **kwargs) -> Query:
         return self._session.query(*args, **kwargs)
+
+    def users(self) -> Query:
+        return self.query(DBUser).filter(DBUser.is_deleted == 0)
 
     def close_session(self):
         self._session.close()
@@ -29,13 +32,14 @@ class DBSession:
             raise DBDataException(e)
 
     def get_user_by_login(self, login: str) -> DBUser:
-        return self._session.query(DBUser).filter(DBUser.login == login, DBUser.is_deleted == 0).first()
+        return self.users().filter(DBUser.login == login).first()
 
     def get_user_by_id(self, uid: int) -> DBUser:
-        return self._session.query(DBUser).filter(DBUser.id == uid, DBUser.is_deleted == 0).first()
+        return self.users().filter(DBUser.id == uid).first()
 
     def get_user_all(self) -> List[DBUser]:
-        return self._session.query(DBUser).filter(DBUser.is_deleted == 0).all()
+        qs = self.users()
+        return qs.all()
 
     def commit_session(self, need_close: bool = False):
         try:

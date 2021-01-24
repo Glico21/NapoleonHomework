@@ -10,5 +10,5 @@ class DBUserExistsException(Exception):
     pass
 
 
-class DBUserNotExistException(Exception):
+class DBUserNotExistsException(Exception):
     pass

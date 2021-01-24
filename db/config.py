@@ -6,4 +6,4 @@ load_dotenv()
 
 class SQLiteConfig:
     name = os.getenv('dbname', 'db.sqlite')
-    url = rf'sqlite:///{name}'
+    url = os.getenv('db-url', rf'sqlite:///{name}')

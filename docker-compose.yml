@@ -3,7 +3,7 @@ services:
 
   server:
     build: .
-    container_name: NapoleonHomework
+    container_name: napoleonhomework
     ports:
     - "8000:8000"
     command: sh -c "cd /NapoleonHomework
@@ -17,6 +17,6 @@ services:
 
   database:
     image: postgres
-    container_name: NapoleonHW-db
+    container_name: napoleonhomework-db
     env_file:
       - .env

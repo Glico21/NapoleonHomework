@@ -14,8 +14,11 @@ from transport.sanic.exceptions import SanicUserNotFound, SanicDBException
 class ModifyUserEndpoint(BaseEndpoint):
 
     async def method_patch(
-            self, request: Request, body: dict, session: DBSession, uid: int, *args, **kwargs
+            self, request: Request, body: dict, session: DBSession, uid: int, token: dict, *args, **kwargs
     ) -> BaseHTTPResponse:
+
+        if token.get('uid') != uid:
+            return await self.make_response_json(status=403)
 
         request_model = RequestPatchUserDto(body)
 

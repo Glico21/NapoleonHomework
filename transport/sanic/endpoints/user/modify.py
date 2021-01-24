@@ -9,10 +9,11 @@ from db.exceptions import DBUserNotExistsException, DBDataException, DBIntegrity
 from db.queries import user as user_queries
 from transport.sanic.endpoints import BaseEndpoint
 from transport.sanic.exceptions import SanicUserNotFound, SanicDBException
+from helpers.decorators import check_id_rights_access_decorator
 
 
 class ModifyUserEndpoint(BaseEndpoint):
-
+    @check_id_rights_access_decorator
     async def method_patch(
             self, request: Request, body: dict, session: DBSession, uid: int, token: dict, *args, **kwargs
     ) -> BaseHTTPResponse:

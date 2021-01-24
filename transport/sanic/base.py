@@ -24,7 +24,7 @@ class SanicEndpoint:
             else:
                 kwargs.update(token)
 
-        return await self.handler(request, token, *args, **kwargs)
+        return await self.handler(request, *args, **kwargs)
 
     def __init__(
             self,

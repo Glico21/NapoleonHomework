@@ -1,0 +1,1 @@
+from .check_rights import check_id_rights_access_decorator

@@ -8,6 +8,7 @@ class SQLiteConfig:
     name = os.getenv('dbname', 'db.sqlite')
     url = rf'sqlite:///{name}'
 
+
 class PostgresConfig:
     name = os.getenv('POSTGRES_NAME', 'NapoleonHW')
     user = os.getenv('POSTGRES_USER', 'admin')

@@ -12,8 +12,19 @@ from transport.sanic.exceptions import SanicAuthException, SanicForbiddenExcepti
 
 class SanicEndpoint:
 
-    async def __call__(self, *args, **kwargs) -> BaseHTTPResponse:
-        return await self.handler(*args, **kwargs)
+    async def __call__(self, request: Request, *args, **kwargs) -> BaseHTTPResponse:
+
+        if self.auth_required:
+            try:
+                token = {
+                    'token': self.import_body_auth(request)
+                }
+            except SanicAuthException as e:
+                return await self.make_response_json(status=e.status_code)
+            else:
+                kwargs.update(token)
+
+        return await self.handler(request, token, *args, **kwargs)
 
     def __init__(
             self,
@@ -66,28 +77,8 @@ class SanicEndpoint:
         except ReadTokenException as e:
             raise SanicAuthException(str(e))
 
-    @staticmethod
-    def check_access_rights(request: Request, route_id):
-        token = request.headers.get('Authorization')
-        auth_id = read_token(token)['uid']
-        if route_id != auth_id:
-            raise SanicForbiddenException(message='Forbidden')
-
     async def handler(self, request: Request, *args, **kwargs) -> BaseHTTPResponse:
         body = {}
-
-        if self.auth_required:
-
-            try:
-                body.update(self.import_body_auth(request))
-            except SanicAuthException as e:
-                return await self.make_response_json(status=e.status_code)
-
-            if 'uid' in kwargs:
-                try:
-                    self.check_access_rights(request, kwargs['uid'])
-                except SanicForbiddenException as e:
-                    return await self.make_response_json(status=e.status_code)
 
         body.update(self.import_body_json(request))
         body.update(self.import_body_headers(request))

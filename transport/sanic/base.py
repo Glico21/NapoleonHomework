@@ -4,10 +4,11 @@ from typing import Iterable
 from sanic.request import Request
 from sanic.response import BaseHTTPResponse, json
 
+from transport.sanic.exceptions import SanicAuthException
+
 from configs.config import ApplicationConfig
 from context import Context
 from helpers.auth import read_token, ReadTokenException
-from transport.sanic.exceptions import SanicAuthException, SanicForbiddenException
 
 
 class SanicEndpoint:

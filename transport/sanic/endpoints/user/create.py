@@ -8,7 +8,6 @@ from api.response import ResponseUserDto
 
 from db.queries import user as user_queries
 from db.exceptions import DBDataException, DBIntegrityException, DBUserExistsException
-
 from helpers.passwords import generate_hash
 from helpers.passwords import GeneratePasswordHashException
 
@@ -33,7 +32,7 @@ class CreateUserEndpoint(BaseEndpoint):
             session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             return await self.make_response_json(status=500, message=str(e))
-
+        print(str(db_user.is_deleted))
         response_model = ResponseUserDto(db_user)
 
         return await self.make_response_json(body=response_model.dump(), status=201)

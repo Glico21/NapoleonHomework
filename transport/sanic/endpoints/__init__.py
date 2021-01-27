@@ -5,3 +5,7 @@ from .user.create import CreateUserEndpoint
 from .user.modify import ModifyUserEndpoint
 from .user.get_all import AllUserEndpoint
 from .user.get_one import OneUserEndpoint
+from .message.create import CreateMessageEndpoint
+from .message.get_all import GetMessagesEndpoint
+from .message.modify import ModifyMessageEndpoint
+from .message.get_one import OneMessageEndpoint

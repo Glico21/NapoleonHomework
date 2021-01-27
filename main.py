@@ -1,6 +1,7 @@
+from transport.sanic.configure_sanic import configure_app
+
 from configs.config import ApplicationConfig
 from context import Context
-from transport.sanic.configure_sanic import configure_app
 
 
 def main():

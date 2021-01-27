@@ -1,7 +1,6 @@
 from sanic import Sanic
 
 from transport.sanic.routes import get_routes
-
 from configs.config import ApplicationConfig
 from context import Context
 from hooks import init_db_sqlite

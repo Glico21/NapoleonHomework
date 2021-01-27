@@ -1,6 +1,6 @@
 from sanic.exceptions import SanicException
 
-from  api.base import ResponseDto
+from api.base import ResponseDto
 
 
 class ValidationError(SanicException):

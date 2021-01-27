@@ -1,12 +1,11 @@
-from urllib.request import Request
-
+from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
+from transport.sanic.endpoints import BaseEndpoint
 from api.response import ResponseUserShortDto
+
 from db.database import DBSession
 from db.queries import user as user_queries
-from transport.sanic.endpoints import BaseEndpoint
-
 from helpers.decorators import check_id_rights_access_decorator
 
 

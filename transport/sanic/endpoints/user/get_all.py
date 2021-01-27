@@ -1,19 +1,15 @@
-from urllib.request import Request
-
+from sanic.request import Request
 from sanic.response import BaseHTTPResponse
 
-from api.request import RequestCreateUserDto
+from transport.sanic.endpoints import BaseEndpoint
 from api.response import ResponseUserDto
+
 from db.database import DBSession
 from db.queries import user as user_queries
-from transport.sanic.endpoints import BaseEndpoint
-
-from helpers.decorators import check_id_rights_access_decorator
 
 
 class AllUserEndpoint(BaseEndpoint):
 
-    @check_id_rights_access_decorator
     async def method_get(
             self, request: Request, body: dict, session: DBSession, *args, **kwargs
     ) -> BaseHTTPResponse:

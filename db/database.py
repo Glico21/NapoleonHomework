@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError, DataError
 from sqlalchemy.orm import sessionmaker, Session, Query
 
 from db.exceptions import DBIntegrityException, DBDataException
-from db.models import BaseModel, DBUser
+from db.models import BaseModel, DBUser, DBMessage
 
 
 class DBSession:
@@ -17,11 +17,11 @@ class DBSession:
     def query(self, *args, **kwargs) -> Query:
         return self._session.query(*args, **kwargs)
 
-    def users(self) -> Query:
-        return self.query(DBUser).filter(DBUser.is_deleted == 0)
+    def avaiable_users(self) -> Query:
+        return self.query(DBUser).filter(DBUser.is_deleted.isnot(True))
 
-    def close_session(self):
-        self._session.close()
+    def unavaiable_users(self) -> Query:
+        return self.query(DBUser).filter(DBUser.is_deleted.isnot(False))
 
     def add_model(self, model: BaseModel):
         try:
@@ -32,13 +32,32 @@ class DBSession:
             raise DBDataException(e)
 
     def get_user_by_login(self, login: str) -> DBUser:
-        return self.users().filter(DBUser.login == login).first()
+        return self.avaiable_users().filter(DBUser.login == login).first()
 
     def get_user_by_id(self, uid: int) -> DBUser:
-        return self.users().filter(DBUser.id == uid).first()
+        return self.avaiable_users().filter(DBUser.id == uid).first()
+
+    def get_deleted_user_by_login(self, login: str) -> DBUser:
+        return self.unavaiable_users().filter(DBUser.login == login).first()
 
     def get_user_all(self) -> List[DBUser]:
-        qs = self.users()
+        qs = self.avaiable_users()
+        return qs.all()
+
+    def messages(self) -> Query:
+        return self.query(DBMessage).filter(DBMessage.is_deleted.isnot(True))
+
+    def incoming_messages(self, user_id) -> Query:
+        return self.messages().filter(DBMessage.recipient_id == user_id)
+
+    def outgoing_messages(self, user_id) -> Query:
+        return self.messages().filter(DBMessage.sender_id == user_id)
+
+    def get_message_by_id(self, user_id, message_id) -> DBMessage:
+        return self.outgoing_messages(user_id).filter(DBMessage.id == message_id).first()
+
+    def get_messages(self, user_id: int) -> List[DBMessage]:
+        qs = self.incoming_messages(user_id)
         return qs.all()
 
     def commit_session(self, need_close: bool = False):
@@ -51,6 +70,9 @@ class DBSession:
 
         if need_close:
             self.close_session()
+
+    def close_session(self):
+        self._session.close()
 
 
 class DataBase:

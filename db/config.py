@@ -10,7 +10,7 @@ class SQLiteConfig:
 
 
 class PostgresConfig:
-    name = os.getenv('POSTGRES_NAME', 'NapoleonHW')
+    name = os.getenv('POSTGRES_DB', 'NapoleonHW')
     user = os.getenv('POSTGRES_USER', 'admin')
     password = os.getenv('POSTGRES_PASSWORD', 'qwerty')
     host = os.getenv('POSTGRES_HOST', 'NapoleonHW-db')

@@ -32,7 +32,6 @@ class CreateUserEndpoint(BaseEndpoint):
             session.commit_session()
         except (DBDataException, DBIntegrityException) as e:
             return await self.make_response_json(status=500, message=str(e))
-        print(str(db_user.is_deleted))
         response_model = ResponseUserDto(db_user)
 
         return await self.make_response_json(body=response_model.dump(), status=201)

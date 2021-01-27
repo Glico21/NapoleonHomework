@@ -32,5 +32,3 @@ class ResponseUserDtoSchema(Schema):
 
 class ResponseUserDto(ResponseDto, ResponseUserDtoSchema):
     __schema__ = ResponseUserDtoSchema
-
-

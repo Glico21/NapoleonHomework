@@ -15,7 +15,7 @@ from helpers.decorators import check_id_rights_access_decorator
 class ModifyUserEndpoint(BaseEndpoint):
     @check_id_rights_access_decorator
     async def method_patch(
-            self, request: Request, body: dict, session: DBSession, uid: int, *args, **kwargs
+            self, request: Request, body: dict, session: DBSession, uid: int = None, *args, **kwargs
     ) -> BaseHTTPResponse:
 
         request_model = RequestPatchUserDto(body)

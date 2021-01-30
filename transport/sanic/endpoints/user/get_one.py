@@ -12,7 +12,7 @@ from helpers.decorators import check_id_rights_access_decorator
 class OneUserEndpoint(BaseEndpoint):
     @check_id_rights_access_decorator
     async def method_get(
-            self, request: Request, body: dict, session: DBSession, uid: int, *args, **kwargs
+            self, request: Request, body: dict, session: DBSession, uid: int = None, *args, **kwargs
     ) -> BaseHTTPResponse:
 
         db_user = user_queries.get_user(session=session, user_id=uid)

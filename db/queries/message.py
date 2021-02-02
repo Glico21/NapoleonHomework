@@ -10,8 +10,8 @@ from db.models import DBMessage
 def create_message(session: DBSession, message: RequestCreateMessageDto, converse_id: dict) -> DBMessage:
     new_message = DBMessage(
         message=message.message,
-        sender_id=converse_id['sender_id'],
-        recipient_id=converse_id['recipient_id']
+        sender_id=converse_id.get('sender_id'),
+        recipient_id=converse_id.get('recipient_id')
     )
 
     session.add_model(new_message)
@@ -33,7 +33,15 @@ def get_user(session: DBSession, *, login: str = None, user_id: int = None) -> D
 
 
 def get_messages(session: DBSession, user_id: int) -> List['DBMessage']:
-    return session.get_messages(user_id)
+    return session.get_incoming_messages(user_id)
+
+
+def get_dialog(session: DBSession, sender_id: int, recipient_id: int) -> List['DBMessage']:
+    db_dialog_messages = session.get_dialog_message(sender_id=sender_id, recipient_id=recipient_id)
+
+    if not db_dialog_messages:
+        raise DBMessageNotExistsException
+    return db_dialog_messages
 
 
 def patch_message(

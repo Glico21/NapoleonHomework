@@ -9,11 +9,11 @@ from transport.sanic.exceptions import SanicUserNotFound, SanicDBException
 from db.database import DBSession
 from db.exceptions import DBUserNotExistsException, DBDataException, DBIntegrityException
 from db.queries import user as user_queries
-from helpers.decorators import check_id_rights_access_decorator
+from helpers.decorators import owner_required
 
 
 class ModifyUserEndpoint(BaseEndpoint):
-    @check_id_rights_access_decorator
+    @owner_required
     async def method_patch(
             self, request: Request, body: dict, session: DBSession, uid: int = None, *args, **kwargs
     ) -> BaseHTTPResponse:
@@ -34,7 +34,7 @@ class ModifyUserEndpoint(BaseEndpoint):
 
         return await self.make_response_json(status=200, body=response_model.dump())
 
-    @check_id_rights_access_decorator
+    @owner_required
     async def method_delete(
             self, request: Request, body: dict, session: DBSession, uid: int, *args, **kwargs
     ) -> BaseHTTPResponse:

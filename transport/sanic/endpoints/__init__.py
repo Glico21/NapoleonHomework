@@ -9,3 +9,4 @@ from .message.create import CreateMessageEndpoint
 from .message.get_all import GetMessagesEndpoint
 from .message.modify import ModifyMessageEndpoint
 from .message.get_one import OneMessageEndpoint
+from .message.get_dialog import DialogEndpoint

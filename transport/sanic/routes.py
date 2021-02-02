@@ -32,9 +32,12 @@ def get_routes(config: ApplicationConfig, context: Context) -> Tuple:
             config, context, uri='/msg', methods=['GET'], auth_required=True
         ),
         endpoints.ModifyMessageEndpoint(
-            config, context, uri='/msg/<message_id>', methods=['PATCH', 'DELETE'], auth_required=True
+            config, context, uri='/msg/<message_id:int>', methods=['PATCH', 'DELETE'], auth_required=True
         ),
         endpoints.OneMessageEndpoint(
-            config, context, uri='/msg/<message_id>', methods=['GET'], auth_required=True
+            config, context, uri='/msg/<message_id:int>', methods=['GET'], auth_required=True
+        ),
+        endpoints.DialogEndpoint(
+            config, context, uri='/msg/<uid:int>/<rid:int>', methods=['GET'], auth_required=True
         )
     )

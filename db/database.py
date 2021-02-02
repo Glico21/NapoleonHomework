@@ -56,9 +56,13 @@ class DBSession:
     def get_message_by_id(self, user_id, message_id) -> DBMessage:
         return self.outgoing_messages(user_id).filter(DBMessage.id == message_id).first()
 
-    def get_messages(self, user_id: int) -> List[DBMessage]:
-        qs = self.incoming_messages(user_id)
-        return qs.all()
+    def get_incoming_messages(self, user_id: int) -> List[DBMessage]:
+        return self.incoming_messages(user_id).all()
+
+    def get_dialog_message(self, sender_id: int, recipient_id: int) -> List[DBMessage]:
+        incoming = self.incoming_messages(user_id=sender_id).filter(DBMessage.sender_id == recipient_id)
+        outgoing = self.outgoing_messages(user_id=sender_id).filter(DBMessage.recipient_id == recipient_id)
+        return incoming.union(outgoing).all()
 
     def commit_session(self, need_close: bool = False):
         try:

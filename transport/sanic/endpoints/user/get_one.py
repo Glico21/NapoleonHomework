@@ -6,11 +6,11 @@ from api.response import ResponseUserShortDto
 
 from db.database import DBSession
 from db.queries import user as user_queries
-from helpers.decorators import check_id_rights_access_decorator
+from helpers.decorators import owner_required
 
 
 class OneUserEndpoint(BaseEndpoint):
-    @check_id_rights_access_decorator
+    @owner_required
     async def method_get(
             self, request: Request, body: dict, session: DBSession, uid: int = None, *args, **kwargs
     ) -> BaseHTTPResponse:

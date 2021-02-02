@@ -1,1 +1,1 @@
-from .check_rights import owner_required
+from .owner_required import owner_required

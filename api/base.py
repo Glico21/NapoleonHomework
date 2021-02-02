@@ -1,4 +1,4 @@
-from marshmallow import Schema, ValidationError, EXCLUDE
+from marshmallow import Schema, ValidationError, EXCLUDE, fields
 
 from api.exceptions import ApiValidationException, ApiResponseValidationException
 
@@ -49,3 +49,13 @@ class ResponseDto:
 
     def dump(self) -> dict:
         return self._data
+
+
+class Field:
+    @staticmethod
+    def string(required: bool = True, allow_none: bool = False, *args, **kwargs):
+        return fields.Str(required=required, allow_none=allow_none, *args, **kwargs)
+
+    @staticmethod
+    def int(required: bool = True, *args, **kwargs):
+        return fields.Int(required=required, *args, **kwargs)

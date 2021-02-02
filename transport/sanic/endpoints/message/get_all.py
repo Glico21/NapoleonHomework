@@ -13,7 +13,6 @@ class GetMessagesEndpoint(BaseEndpoint):
     async def method_get(
             self, request: Request, body: dict, session: DBSession, token: dict, *args, **kwargs
     ) -> BaseHTTPResponse:
-
         uid = token.get('uid')
         db_message = message_queries.get_messages(session, user_id=uid)
         response_model = ResponseMessageDto(db_message, many=True)

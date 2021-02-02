@@ -1,13 +1,13 @@
 from marshmallow import Schema, fields
 
-from api.base import RequestDto
+from api.base import RequestDto, Field
 
 
 class RequestCreateUserDtoSchema(Schema):
-    login = fields.Str(required=True, allow_none=False)
-    password = fields.Str(required=True, allow_none=False)
-    first_name = fields.Str(required=True, allow_none=False)
-    last_name = fields.Str(required=True, allow_none=False)
+    login = Field.string()
+    password = Field.string()
+    first_name = Field.string()
+    last_name = Field.string()
 
 
 class RequestCreateUserDto(RequestDto, RequestCreateUserDtoSchema):

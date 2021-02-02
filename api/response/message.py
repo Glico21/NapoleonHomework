@@ -1,17 +1,17 @@
 import datetime
 
-from marshmallow import Schema, fields, pre_load, post_load
+from marshmallow import Schema, pre_load, post_load
 
-from api.base import ResponseDto
+from api.base import ResponseDto, Field
 
 
 class ResponseMessageDtoSchema(Schema):
-    id = fields.Int(required=True)
-    sender_id = fields.Int(required=True)
-    recipient_id = fields.Int(required=True)
-    created_at = fields.Str(required=True)
-    updated_at = fields.Str(required=True)
-    message = fields.Str(required=True)
+    id = Field.int()
+    sender_id = Field.int()
+    recipient_id = Field.int()
+    created_at = Field.string()
+    updated_at = Field.string()
+    message = Field.string()
 
     @pre_load
     @post_load

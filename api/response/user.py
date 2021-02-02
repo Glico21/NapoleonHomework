@@ -1,17 +1,18 @@
 import datetime
 
-from marshmallow import Schema, fields, pre_load, post_load
+from marshmallow import Schema, pre_load, post_load
 
-from api.base import ResponseDto
+from api.base import ResponseDto, Field
 
 
 class ResponseUserDtoSchema(Schema):
-    id = fields.Int(required=True)
-    login = fields.Str(required=True)
-    created_at = fields.Str(required=True)
-    updated_at = fields.Str(required=True)
-    first_name = fields.Str(required=True)
-    last_name = fields.Str(required=True)
+    id = Field.int()
+    login = Field.string()
+    created_at = Field.string()
+    updated_at = Field.string()
+    first_name = Field.string()
+    last_name = Field.string()
+
 
     @pre_load
     @post_load

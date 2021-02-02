@@ -1,11 +1,11 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, validate
 
-from api.base import RequestDto
+from api.base import RequestDto, Field
 
 
 class RequestCreateMessageDtoSchema(Schema):
-    message = fields.Str(required=True, allow_none=True, validate=validate.Length(max=280))
-    recipient = fields.Str(required=True, allow_none=False)
+    message = Field.string(allow_none=True, validate=validate.Length(max=280))
+    recipient = Field.string()
 
 
 class RequestCreateMessageDto(RequestDto, RequestCreateMessageDtoSchema):

@@ -1,11 +1,11 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema
 
-from api.base import RequestDto
+from api.base import RequestDto, Field
 
 
 class RequestAuthUserDtoSchema(Schema):
-    login = fields.Str(required=True, allow_none=False)
-    password = fields.Str(required=True, allow_none=False)
+    login = Field.string()
+    password = Field.string()
 
 
 class RequestAuthUserDto(RequestDto, RequestAuthUserDtoSchema):

@@ -14,7 +14,7 @@ def request_factory():
                 method: str = 'get',
                 content_type: str = '',
                 headers: dict = None,
-                json: str = None,
+                json: str = None
         ):
             self.method = method.upper()
             self.content_type = content_type
